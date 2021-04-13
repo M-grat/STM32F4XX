@@ -22,12 +22,12 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#define VREFIN_CAL ((uint16_t*)(uint32_t) 0x1FFF7A2A))
+#define VREFIN_CAL ((uint16_t*)((uint32_t) 0x1FFF7A2A))
 #define V25 (float)0.76
 #define Avg_slope (float)0.0025
 
 uint16_t adc1_value[3],adc2_value;
-float Vadc1=0,Vadc2,Vsense=0,Vdda=0;temperature=0;
+float Vadc1=0,Vadc2,Vsense=0,Vdda=0,temperature=0;
 int count=0;
 /* USER CODE END Includes */
 
@@ -77,11 +77,16 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 		 */
 		if(count==3)
 			count=0;
-		Vdda=  3.3 * (*VREFIN_CAL) / adc1_value[1];
+
+		Vdda=  (float)3.3 * (*VREFIN_CAL)/adc1_value[1];
+		Vadc1=Vdda*adc1_value[0]/4095;
+		Vsense=Vdda*adc1_value[2]/4095;
+		temperature=((Vsense-V25)/Avg_slope)+25;
 	}
 	if(__HAL_ADC_GET_FLAG(&hadc2,ADC_FLAG_EOC)!=RESET)
 	{
-
+		adc2_value=HAL_ADC_GetValue(&hadc2);
+		Vadc2=Vdda*adc2_value/4095;
 	}
 }
 /* USER CODE END 0 */
