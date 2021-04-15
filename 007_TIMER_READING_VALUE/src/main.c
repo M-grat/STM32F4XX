@@ -8,8 +8,8 @@ void TIMER_Config()
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2,ENABLE);
 	TIM_InitStructer.TIM_ClockDivision=TIM_CKD_DIV1;
 	TIM_InitStructer.TIM_CounterMode=TIM_CounterMode_Up;
-	TIM_InitStructer.TIM_Period=9999;
-	TIM_InitStructer.TIM_Prescaler=0x0000;
+	TIM_InitStructer.TIM_Period=1999;
+	TIM_InitStructer.TIM_Prescaler=41999;
 	TIM_InitStructer.TIM_RepetitionCounter=0;
 
 	TIM_TimeBaseInit(TIM2,&TIM_InitStructer);
